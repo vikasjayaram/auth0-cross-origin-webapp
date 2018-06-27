@@ -1,0 +1,21 @@
+header.site-header
+    nav.navbar.navbar-default(role='navigation')
+        .container
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            h1.navbar-brand
+              a(href='/')
+                span Auth0
+          #navbar-collapse.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-right
+              li.li-docs.no-basic
+                a(href='https://auth0.com/docs/cross-origin-authentication' target='_blank') Cross Origin Documentation
+              li
+                if user
+                  a.signin-button.login(href='/logout') Logout
+                else
+                  a.signin-button.login(href='/login') Login

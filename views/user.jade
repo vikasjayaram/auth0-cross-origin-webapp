@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div#over
+    img(src="#{user.picture}" align="middle")
+  br
+  h2 Welcome #{user._json.email}!
+  br
+  
+  pre.container
+    code
+      !{JSON.stringify(user._json, null, 2)}
