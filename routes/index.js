@@ -11,30 +11,37 @@ var env = {
 };
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   console.log(process.env.API_AUDIENCE);
   console.log(env);
   res.render('index', { title: 'Express', env: env });
 });
 
 router.get('/login',
-  function(req, res){
+  function (req, res) {
     res.render('login', { env: env });
   });
 
-router.get('/logout', function(req, res){
+router.get(
+  '/login/sso',
+  passport.authenticate('auth0', { prompt: 'none' }),
+  function (req, res) {
+    res.redirect('/');
+  }
+);
+router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
 
 router.get('/callback',
-  passport.authenticate('auth0', { failureRedirect: '/url-if-something-fails' }),
-  function(req, res) {
+  passport.authenticate('auth0', { failureRedirect: `/login?login_required` }),
+  function (req, res) {
     res.redirect(req.session.returnTo || '/user');
   });
 
 router.get('/co-verify',
-  function(req, res){
+  function (req, res) {
     res.render('co-verify', { env: env });
   });
 

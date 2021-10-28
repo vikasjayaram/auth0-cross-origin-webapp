@@ -126,7 +126,7 @@ block content
 
   script(src='//code.jquery.com/jquery-3.1.0.min.js')
   script(src='//cdn.auth0.com/js/polyfills/1.0/object-assign.min.js')
-  script(src='//cdn.auth0.com/js/auth0/9.6.1/auth0.min.js')
+  script(src='//cdn.auth0.com/js/auth0/9.17.0/auth0.min.js')
   script.
     $(document).ready(function () {
       var loader = $('#loader').hide();
@@ -166,7 +166,7 @@ block content
         clientID: '#{env.AUTH0_CLIENT_ID}',
         redirectUri: '#{env.AUTH0_CALLBACK_URL}',
         audience: '#{env.API_AUDIENCE}',
-        scope: 'openid email profile',
+        scope: 'openid email profile offline_access read:notifications',
         responseType: 'code'
       };
       var webAuth = new auth0.WebAuth(params);
@@ -179,7 +179,13 @@ block content
       if (title) {
         $("#client-title").text(title);
       }
-
+      /*
+      * CheckSession
+      */
+      const query = window.location.search;
+      if (!query.includes('login_required')) {
+        webAuth.authorize({prompt: 'none'});
+      }
       /*
       * Passwordless
       */
